@@ -31,10 +31,10 @@
 
         <div id="unregisterd_user">
             <button class="btn btn-outline-light" type="button" data-bs-toggle="modal" data-bs-target="#login-modal">Login </button>
-            <button class="btn btn-outline-light" type="button">Register </button>
+            <button class="btn btn-outline-light" type="button" data-bs-toggle="modal" data-bs-target="#registration-modal">Register </button>
         </div>
 
-        <ul class="navbar-nav" id="registerd_user"> 
+        <ul class="navbar-nav" id="registerd_user">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="user-dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Anonymous</a>
                 <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="user-dropdown">
@@ -47,6 +47,6 @@
                 </ul>
             </li>
         </ul>
-        
+
     </div>
 </nav>

@@ -32,14 +32,14 @@ class Database extends Config
 	 */
 	public $default = [
 		'DSN'      => '',
-		'hostname' => '',
-		'username' => '',
+		'hostname' => 'localhost',
+		'username' => 'root',
 		'password' => '',
-		'database' => '',
+		'database' => 'uas_ci',
 		'DBDriver' => 'MySQLi',
 		'DBPrefix' => '',
 		'pConnect' => false,
-		'DBDebug'  => true,//(ENVIRONMENT !== 'production'),
+		'DBDebug'  => true, //(ENVIRONMENT !== 'production'),
 		'charset'  => 'utf8',
 		'DBCollat' => 'utf8_general_ci',
 		'swapPre'  => '',
@@ -85,8 +85,7 @@ class Database extends Config
 		// Ensure that we always set the database group to 'tests' if
 		// we are currently running an automated test suite, so that
 		// we don't overwrite live data on accident.
-		if (ENVIRONMENT === 'testing')
-		{
+		if (ENVIRONMENT === 'testing') {
 			$this->defaultGroup = 'tests';
 		}
 	}

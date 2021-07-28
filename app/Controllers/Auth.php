@@ -26,7 +26,7 @@ class Auth extends BaseController
             'password' => 'required|min_length[8]|max_length[255]'
         ];
 
- 		$input = $this->getRequestInput($this->request);
+        $input = $this->getRequestInput($this->request);
         if (!$this->validateRequest($input, $rules)) {
             return $this
                 ->getResponse(
@@ -36,7 +36,7 @@ class Auth extends BaseController
         }
 
         $userModel = new Users();
-       	$userModel->save($input);
+        $userModel->save($input);
 
 
         return $this
@@ -44,7 +44,6 @@ class Auth extends BaseController
                 $input['email'],
                 ResponseInterface::HTTP_CREATED
             );
-
     }
 
     /**
@@ -53,42 +52,56 @@ class Auth extends BaseController
      */
     public function login()
     {
+        // session();
         $rules = [
             'email' => 'required|min_length[6]|max_length[50]|valid_email',
             'password' => 'required|min_length[8]|max_length[255]|validateUser[email, password]'
         ];
 
         $errors = [
-            'password' => [
+            'msg' => [
                 'validateUser' => 'Invalid login credentials provided'
             ]
         ];
 
-		$input = $this->getRequestInput($this->request);
+        $input = $this->getRequestInput($this->request);
 
 
         if (!$this->validateRequest($input, $rules, $errors)) {
             return $this
                 ->getResponse(
-                    $this->validator->getErrors(),
+                    $errors = $this->validator->getErrors('password'),
                     ResponseInterface::HTTP_BAD_REQUEST
                 );
         }
-       return $this->getJWTForUser($input['email']);
 
-       
+
+        // if (!$this->validateRequest($input, $rules, $errors)) {
+        //     return redirect()->to(base_url('auth/login'))->with($this
+        //         ->getResponse(
+        //             $this->validator->getErrors(),
+        //             ResponseInterface::HTTP_BAD_REQUEST
+        //         ));
+        // }
+
+        // if (!$this->validate($errors)) {
+        //     return redirect()->to(base_url('auth/login'))->with('error', $this->validator->listErrors());
+        // }
+        return $this->getJWTForUser($input['email']);
     }
 
-    public function logout(){
+    public function logout()
+    {
         session_destroy();
     }
 
-    public function me(){
+    public function me()
+    {
         $key = Services::getSecretKey();
-       
+
         $authHeader = $this->request->getHeader("Authorization");
         $authHeader = $authHeader->getValue();
-        $token = str_replace("Bearer ","",$authHeader);
+        $token = str_replace("Bearer ", "", $authHeader);
 
         try {
             $decoded = JWT::decode($token, $key, ['HS256']);
@@ -107,7 +120,7 @@ class Auth extends BaseController
                 return $this->response->setJSON($response);
             }
         } catch (Exception $ex) {
-          
+
             $response = [
                 'status' => 401,
                 'error' => true,
@@ -121,20 +134,19 @@ class Auth extends BaseController
     private function getJWTForUser(
         string $emailAddress,
         int $responseCode = ResponseInterface::HTTP_OK
-    )
-    {
+    ) {
         $session = \Config\Services::session();
 
         try {
             $model = new Users();
             $user = $model->findUserByEmailAddress($emailAddress);
             unset($user['password']);
-            
+
             helper('jwt');
 
             $token = getSignedJWTForUser($emailAddress);
-            
-            if($user){
+
+            if ($user) {
                 $newdata = [
                     'token'  => $token,
                     'user'     => $user

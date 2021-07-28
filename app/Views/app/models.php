@@ -1,4 +1,4 @@
-<!-- Registration --> 
+<!-- Registration -->
 <div class="modal fade" id="registration-modal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -7,7 +7,9 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+
                 <form>
+
                     <div class="form-floating m-2">
                         <input type="text" class="form-control" id="register-name" placeholder="Nama">
                         <label>Nama</label>
@@ -47,6 +49,9 @@
             </div>
             <div class="modal-body">
                 <form>
+                    <div id="msg" class="bg-danger rounded mx-2 px-5" name='msg' style="color:aliceblue;">
+
+                    </div>
                     <div class="form-floating m-2">
                         <input type="email" class="form-control" id="login-email" placeholder="Email">
                         <label>Email</label>
